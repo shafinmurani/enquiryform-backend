@@ -61,7 +61,36 @@ app.post("/api/login", (req, res) => {
             result: true,
           });
         } else {
-          res.status(401).json({ result: false });
+          res.json({ result: false });
+        }
+      }
+    );
+  });
+});
+app.post("/api/product-group/add", (req, res) => {
+  console.log(req.body);
+  const con = mysql.createConnection({
+    host: "localhost",
+    user: "enquiryform",
+    password: "enquiryform",
+    database: "enquiryform",
+  });
+  con.connect(function (err) {
+    if (err) throw err;
+    con.query(
+      "INSERT INTO tbl_category (vCategory) VALUES (?);",
+      [req.body.category],
+      function (err, result, fields) {
+        console.log(result);
+        console.log(err);
+        if (err) throw err;
+        if (result) {
+          res.json({
+            result: true,
+            message: "Category added successfully",
+          });
+        } else {
+          res.json({ result: false, message: err });
         }
       }
     );
