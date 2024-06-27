@@ -96,4 +96,30 @@ app.post("/api/product-group/add", (req, res) => {
     );
   });
 });
+app.post("/api/product-group/get", (req, res) => {
+  console.log(req.body);
+  const con = mysql.createConnection({
+    host: "localhost",
+    user: "enquiryform",
+    password: "enquiryform",
+    database: "enquiryform",
+  });
+  con.connect(function (err) {
+    if (err) throw err;
+    con.query("SELECT * FROM tbl_category;", function (err, result, fields) {
+      console.log(result);
+      console.log(err);
+      if (err) throw err;
+      if (result) {
+        res.json({
+          result: true,
+          message: "Category added successfully",
+          list: result,
+        });
+      } else {
+        res.json({ result: false, message: err });
+      }
+    });
+  });
+});
 app.listen(3001, () => console.log("Server listening at port 3001"));
