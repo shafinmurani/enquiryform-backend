@@ -2,9 +2,32 @@ const express = require("express");
 const app = express();
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
-const { parseFlagList } = require("mysql/lib/ConnectionConfig");
 const cors = require("cors");
+const dotenv = require("dotenv");
+const jwt = require("jsonwebtoken");
+dotenv.config();
 app.use(cors());
+
+function generateAccessToken(email, result) {
+  /**
+   * Generates an access token for the given username.
+   *
+   * @param {string} username - The username for which the token is being generated.
+   * @return {string} The generated access token.
+   */
+
+  return jwt.sign(
+    {
+      email: email,
+      signInTime: Date.now(),
+      name: result[0].vFirstName + " " + result[0].vLastName,
+    },
+    process.env.TOKEN_SECRET,
+    {
+      expiresIn: "86400s",
+    }
+  );
+}
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -32,9 +55,13 @@ app.post("/api/login", (req, res) => {
       function (err, result, fields) {
         if (err) throw err;
         if (result.length > 0) {
-          res.send(true);
+          const token = generateAccessToken(req.body.email, result);
+          res.status(200).json({
+            token,
+            result: true,
+          });
         } else {
-          res.send(false);
+          res.status(401).json({ result: false });
         }
       }
     );
