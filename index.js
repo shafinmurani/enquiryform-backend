@@ -76,14 +76,16 @@ app.post("/api/product-group/add", (req, res) => {
   con.connect(function (err) {
     if (err) throw err;
     con.query(
-      "INSERT INTO tbl_category (vCategory) VALUES (?);",
-      [req.body.category],
+      "INSERT INTO tbl_category (vCategory) SELECT * FROM (SELECT ?) as tmp WHERE NOT EXISTS (SELECT * FROM tbl_category WHERE vCategory = ? && isDeleted = 'No') LIMIT 1;",
+      [req.body.category, req.body.category],
       function (err, result, fields) {
+        console.log(result.affectedRows);
         if (err) throw err;
         if (result) {
           res.json({
             result: true,
             message: "Category added successfully",
+            affectedRows: result.affectedRows,
           });
         } else {
           res.json({ result: false, message: err });
