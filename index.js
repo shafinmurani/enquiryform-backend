@@ -106,7 +106,6 @@ app.post("/api/product-group/get", (req, res) => {
       if (result) {
         res.json({
           result: true,
-          message: "Category added successfully",
           list: result,
         });
       } else {
@@ -135,6 +134,64 @@ app.post("/api/product-group/delete", (req, res) => {
           res.json({
             result: true,
             message: "Category removed successfully",
+            list: result,
+          });
+        } else {
+          res.json({ result: false, message: err });
+        }
+      }
+    );
+  });
+});
+
+app.post("/api/product-group/get-specific", (req, res) => {
+  console.log(req.body.id);
+  const con = mysql.createConnection({
+    host: "localhost",
+    user: "enquiryform",
+    password: "enquiryform",
+    database: "enquiryform",
+  });
+  con.connect(function (err) {
+    if (err) throw err;
+    con.query(
+      "SELECT * FROM tbl_category WHERE iCategoryID = ?;",
+      [req.body.id],
+      function (err, result, fields) {
+        if (err) throw err;
+        if (result) {
+          console.log(result);
+          res.json({
+            result: true,
+            list: result,
+          });
+        } else {
+          res.json({ result: false, message: err });
+        }
+      }
+    );
+  });
+});
+
+app.post("/api/product-group/edit", (req, res) => {
+  console.log(req.body.id);
+  const con = mysql.createConnection({
+    host: "localhost",
+    user: "enquiryform",
+    password: "enquiryform",
+    database: "enquiryform",
+  });
+  con.connect(function (err) {
+    if (err) throw err;
+    con.query(
+      "UPDATE tbl_category SET vCategory = ? WHERE iCategoryID = ?;",
+      [req.body.category, req.body.id],
+      function (err, result, fields) {
+        if (err) throw err;
+        if (result) {
+          res.json({
+            result: true,
+            message: "Category updated successfully",
             list: result,
           });
         } else {
