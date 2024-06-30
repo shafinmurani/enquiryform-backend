@@ -17,7 +17,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/api/service-group/", routes.serviceGroupRouter);
 app.use("/api/login", routes.loginRouter);
-
+app.use("/api/service", routes.serviceRouter);
 app.listen(3001, () => {
   console.log(`Server is Fire at http://localhost:3001`);
 });
