@@ -7,7 +7,7 @@ router.post("/get", (req: Request, res: Response) => {
   const con = new modules.SqlConnection().getConnection();
   con.connect(function (err) {
     if (err) throw err;
-    con.query("SELECT * FROM tbl_category;", function (err, result, fields) {
+    con.query("SELECT * FROM tbl_party;", function (err, result, fields) {
       if (err) throw err;
       if (result) {
         res.json({
@@ -20,21 +20,29 @@ router.post("/get", (req: Request, res: Response) => {
     });
   });
 });
-
 router.post("/add", (req: Request, res: Response) => {
   const con = new modules.SqlConnection().getConnection();
   con.connect(function (err) {
     if (err) throw err;
     con.query(
-      "INSERT INTO tbl_category (vCategory) SELECT * FROM (SELECT ?) as tmp WHERE NOT EXISTS (SELECT * FROM tbl_category WHERE vCategory = ? && isDeleted = 'No') LIMIT 1;",
-      [req.body.category, req.body.category],
+      "INSERT INTO tbl_party (vParty, tAddress, vCity, vCName, vCMobileNo, vCEmail) SELECT * FROM (SELECT ?,?,?,?,?,?) as tmp WHERE NOT EXISTS (SELECT * FROM tbl_party WHERE vParty = ? && isDeleted = 'No') LIMIT 1;",
+      [
+        req.body.partyName,
+        req.body.address,
+        req.body.city,
+        req.body.name,
+        req.body.mobileNo,
+        req.body.email,
+        req.body.partyName,
+      ],
       function (err, result, fields) {
-        console.log(result.affectedRows);
+        console.log(result);
         if (err) throw err;
         if (result) {
+          console.log(result);
           res.json({
             result: true,
-            message: "Category added successfully",
+            message: "Party added successfully",
             affectedRows: result.affectedRows,
           });
         } else {
@@ -63,7 +71,7 @@ router.post("/delete", (req: Request, res: Response) => {
             });
           } else {
             con.query(
-              "UPDATE tbl_category SET isDeleted = 'Yes' WHERE iCategoryID = ?;",
+              "UPDATE tbl_party SET isDeleted = 'Yes' WHERE iPartyID = ?;",
               [req.body.id],
               function (err, result, fields) {
                 if (err) throw err;
@@ -71,7 +79,7 @@ router.post("/delete", (req: Request, res: Response) => {
                   console.log(result);
                   res.json({
                     result: true,
-                    message: "Category removed successfully",
+                    message: "Party removed successfully",
                     list: result,
                   });
                 } else {
@@ -85,14 +93,13 @@ router.post("/delete", (req: Request, res: Response) => {
     });
   });
 });
-
 router.post("/get-specific", (req, res) => {
   console.log(req.body.id);
   const con = new modules.SqlConnection().getConnection();
   con.connect(function (err) {
     if (err) throw err;
     con.query(
-      "SELECT * FROM tbl_category WHERE iCategoryID = ?;",
+      "SELECT * FROM tbl_party WHERE iPartyID = ?;",
       [req.body.id],
       function (err, result, fields) {
         if (err) throw err;
@@ -116,8 +123,16 @@ router.post("/edit", (req, res) => {
   con.connect(function (err) {
     if (err) throw err;
     con.query(
-      "UPDATE tbl_category SET vCategory = ? WHERE iCategoryID = ?;",
-      [req.body.category, req.body.id],
+      "UPDATE tbl_party SET vParty=?, tAddress=?, vCity=?, vCName=?, vCMobileNo=?, vCEmail=?  WHERE iPartyID = ?;",
+      [
+        req.body.partyName,
+        req.body.address,
+        req.body.city,
+        req.body.name,
+        req.body.mobileNo,
+        req.body.email,
+        req.body.id,
+      ],
       function (err, result, fields) {
         if (err) throw err;
         if (result) {
@@ -133,5 +148,4 @@ router.post("/edit", (req, res) => {
     );
   });
 });
-
-export { router as serviceGroupRouter };
+export { router as partyRouter };
