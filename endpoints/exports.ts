@@ -3,3 +3,4 @@ export { serviceGroupRouter } from "./serviceGroup/serviceGroup";
 export { serviceRouter } from "./services/services";
 export { partyRouter } from "./party/party";
 export { companyRouter } from "./company/company";
+export { dealerRouter } from "./dealer/dealer";
