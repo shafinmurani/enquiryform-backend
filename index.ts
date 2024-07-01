@@ -19,6 +19,7 @@ app.use("/api/service-group/", routes.serviceGroupRouter);
 app.use("/api/login", routes.loginRouter);
 app.use("/api/service", routes.serviceRouter);
 app.use("/api/party", routes.partyRouter);
+app.use("/api/company", routes.companyRouter);
 
 app.listen(3001, () => {
   console.log(`Server running at http://localhost:3001`);
