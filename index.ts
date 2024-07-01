@@ -12,12 +12,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome to Express & TypeScript Server");
+  res.send("Back end server for enquiry form");
 });
 
 app.use("/api/service-group/", routes.serviceGroupRouter);
 app.use("/api/login", routes.loginRouter);
 app.use("/api/service", routes.serviceRouter);
 app.listen(3001, () => {
-  console.log(`Server is Fire at http://localhost:3001`);
+  console.log(`Server running at http://localhost:3001`);
 });

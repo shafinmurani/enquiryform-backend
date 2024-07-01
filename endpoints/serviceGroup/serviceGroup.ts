@@ -52,7 +52,7 @@ router.post("/delete", (req: Request, res: Response) => {
     if (err) throw err;
     con2.connect(function (err) {
       con.query(
-        "SELECT * FROM tbl_product WHERE iCategoryID=?",
+        "SELECT * FROM tbl_product WHERE iCategoryID=? ",
         [req.body.id],
         function (err, result) {
           console.log(result.length);
@@ -68,6 +68,7 @@ router.post("/delete", (req: Request, res: Response) => {
               function (err, result, fields) {
                 if (err) throw err;
                 if (result) {
+                  console.log(result);
                   res.json({
                     result: true,
                     message: "Category removed successfully",
