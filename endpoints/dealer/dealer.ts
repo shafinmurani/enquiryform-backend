@@ -79,4 +79,59 @@ router.post("/delete", (req, res) => {
   });
 });
 
+router.post("/get-specific", (req, res) => {
+  console.log(req.body.id);
+  const con = new modules.SqlConnection().getConnection();
+  con.connect(function (err) {
+    if (err) throw err;
+    con.query(
+      "SELECT * FROM tbl_dealer WHERE iDealerID = ?;",
+      [req.body.id],
+      function (err, result, fields) {
+        if (err) throw err;
+        if (result) {
+          console.log(result);
+          res.json({
+            result: true,
+            list: result,
+          });
+        } else {
+          res.json({ result: false, message: err });
+        }
+      },
+    );
+  });
+});
+
+router.post("/edit", (req, res) => {
+  console.log(req.body.id);
+  const con = new modules.SqlConnection().getConnection();
+  con.connect(function (err) {
+    if (err) throw err;
+    con.query(
+      "UPDATE tbl_dealer SET vDName=?, vDMobileno=?, vDEmail=?, vDGSTno=?, vDCity=?  WHERE iDealerID = ?;",
+      [
+        req.body.dealerName,
+        req.body.mobileNo,
+        req.body.email,
+        req.body.gstNumber,
+        req.body.city,
+        req.body.id,
+      ],
+      function (err, result, fields) {
+        if (err) throw err;
+        if (result) {
+          res.json({
+            result: true,
+            message: "Category updated successfully",
+            list: result,
+          });
+        } else {
+          res.json({ result: false, message: err });
+        }
+      },
+    );
+  });
+});
+
 export { router as dealerRouter };
