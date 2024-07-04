@@ -21,6 +21,8 @@ app.use("/api/service", routes.serviceRouter);
 app.use("/api/party", routes.partyRouter);
 app.use("/api/company", routes.companyRouter);
 app.use("/api/dealer", routes.dealerRouter);
+app.use("/api/renewals", routes.renewalRouter);
+app.use("/api/admin", routes.adminRouter);
 app.listen(3001, () => {
   console.log(`Server running at http://localhost:3001`);
 });

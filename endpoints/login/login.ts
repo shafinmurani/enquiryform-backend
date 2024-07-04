@@ -12,7 +12,7 @@ router.post("/", (req: Request, res: Response) => {
   con.connect(function (err) {
     if (err) throw err;
     con.query(
-      "SELECT * FROM tbl_admin WHERE vEmail = ? AND vPassword = ?",
+      "SELECT * FROM tbl_admin WHERE vEmail = ? AND vPassword = ? AND eStatus = 'Active'",
       [req.body.email, req.body.password],
       function (err, result, fields) {
         if (err) throw err;
