@@ -32,5 +32,9 @@ router.post("/", (req: Request, res: Response) => {
     );
   });
 });
-
+router.post("/decode", (req: Request, res: Response) => {
+  console.log("TEST");
+  const decoded = new modules.JWT().decode(req.body.token);
+  res.json({ decodedToken: decoded });
+});
 export { router as loginRouter };
