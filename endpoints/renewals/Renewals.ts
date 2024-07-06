@@ -25,7 +25,7 @@ router.post("/add", (req: Request, res: Response) => {
   con.connect(function (err) {
     if (err) throw err;
     con.query(
-      "INSERT INTO tbl_renewal(iAdminID, iCategoryID, iProductID, dtRegister, dtExpiry, iPartyID, iQty, dRate, dAmount, dTax, eTaxType, dTotalAmount, iAccountID, iDealerID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);",
+      "INSERT INTO tbl_renewal(iAdminID, iCategoryID, iProductID, dtRegister, dtExpiry, iPartyID, iQty, dRate, dAmount, dTax, eTaxType, dTotalAmount, iAccountID, iDealerID,tRemarks,vType) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);",
       [
         req.body.adminId,
         req.body.productGroupID,
@@ -41,6 +41,8 @@ router.post("/add", (req: Request, res: Response) => {
         req.body.totalAmt,
         req.body.companyID,
         req.body.dealerID,
+        req.body.remarks,
+        req.body.productType,
       ],
       function (err, result, fields) {
         if (err) throw err;
