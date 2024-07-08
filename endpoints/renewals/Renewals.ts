@@ -58,4 +58,29 @@ router.post("/add", (req: Request, res: Response) => {
     );
   });
 });
+router.post("/delete", (req, res) => {
+  const con = new modules.SqlConnection().getConnection();
+
+  con.connect(function (err) {
+    console.log(req.body);
+    if (err) throw err;
+    con.query(
+      "UPDATE tbl_renewal SET isDeleted = 'Yes' WHERE iRenewalID = ?;",
+      [req.body.id],
+      function (err, result, fields) {
+        if (err) throw err;
+        if (result) {
+          console.log(result);
+          res.json({
+            result: true,
+            message: "Renewal removed successfully",
+            list: result,
+          });
+        } else {
+          res.json({ result: false, message: err });
+        }
+      },
+    );
+  });
+});
 export { router as renewalRouter };
