@@ -173,4 +173,45 @@ router.post("/get-specific", (req: Request, res: Response) => {
     );
   });
 });
+
+router.post("/edit", (req, res) => {
+  console.log(req.body.id);
+  const con = new modules.SqlConnection().getConnection();
+  con.connect(function (err) {
+    if (err) throw err;
+    con.query(
+      `UPDATE tbl_renewal SET iCategoryID=?, iProductID=?, dtRegister=?,dtExpiry=?,iPartyID=?,iQty=?,dRate=?,dAmount=?,dTax=?,eTaxType=?,dTotalAmount=?,iAccountID=?,iDealerID=?,vType=?,tRemarks=? WHERE iRenewalID = ?;`,
+      [
+        req.body.productGroupID,
+        req.body.productID,
+        req.body.registrationDate,
+        req.body.expiryDate,
+        req.body.partyID,
+        req.body.quantity,
+        req.body.rate,
+        req.body.amount,
+        req.body.taxPercent,
+        req.body.taxType,
+        req.body.totalAmt,
+        req.body.companyID,
+        req.body.dealerID,
+        req.body.remarks,
+        req.body.productType,
+        req.body.id,
+      ],
+      function (err, result, fields) {
+        if (err) throw err;
+        if (result) {
+          res.json({
+            result: true,
+            message: "Renewal updated successfully",
+            affectedRows: result.affectedRows,
+          });
+        } else {
+          res.json({ result: false, message: err });
+        }
+      },
+    );
+  });
+});
 export { router as renewalRouter };
