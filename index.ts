@@ -23,6 +23,8 @@ app.use("/api/company", routes.companyRouter);
 app.use("/api/dealer", routes.dealerRouter);
 app.use("/api/renewals", routes.renewalRouter);
 app.use("/api/admin", routes.adminRouter);
+app.use("/api/database/export", routes.databaseExportRouter);
+
 app.listen(3001, () => {
   console.log(`Server running at http://localhost:3001`);
 });
