@@ -25,7 +25,23 @@ router.post("/add", (req: Request, res: Response) => {
   con.connect(function (err) {
     if (err) throw err;
     con.query(
-      "INSERT INTO tbl_renewal(iAdminID, iCategoryID, iProductID, dtRegister, dtExpiry, iPartyID, iQty, dRate, dAmount, dTax, eTaxType, dTotalAmount, iAccountID, iDealerID,tRemarks,vType) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);",
+      `INSERT INTO tbl_renewal(
+      iAdminID,
+      iCategoryID,
+      iProductID,
+      dtRegister,
+      dtExpiry,
+      iPartyID,
+      iQty,
+      dRate,
+      dAmount,
+      dTax,
+      eTaxType,
+      dTotalAmount,
+      iAccountID,
+      iDealerID,
+      tRemarks,
+      vType) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);`,
       [
         req.body.adminId,
         req.body.productGroupID,
@@ -36,7 +52,7 @@ router.post("/add", (req: Request, res: Response) => {
         req.body.quantity,
         req.body.rate,
         req.body.amount,
-        req.body.tax,
+        req.body.taxPercent,
         req.body.taxType,
         req.body.totalAmt,
         req.body.companyID,
@@ -74,6 +90,80 @@ router.post("/delete", (req, res) => {
           res.json({
             result: true,
             message: "Renewal removed successfully",
+            list: result,
+          });
+        } else {
+          res.json({ result: false, message: err });
+        }
+      },
+    );
+  });
+});
+
+router.post("/set-inactive", (req, res) => {
+  const con = new modules.SqlConnection().getConnection();
+
+  con.connect(function (err) {
+    console.log(req.body);
+    if (err) throw err;
+    con.query(
+      "UPDATE tbl_renewal SET eStatus = 'Deactive' WHERE iRenewalID = ?;",
+      [req.body.id],
+      function (err, result, fields) {
+        if (err) throw err;
+        if (result) {
+          console.log(result);
+          res.json({
+            result: true,
+            message: "Renewal status set to Inactive",
+            list: result,
+          });
+        } else {
+          res.json({ result: false, message: err });
+        }
+      },
+    );
+  });
+});
+
+router.post("/set-active", (req, res) => {
+  const con = new modules.SqlConnection().getConnection();
+
+  con.connect(function (err) {
+    console.log(req.body);
+    if (err) throw err;
+    con.query(
+      "UPDATE tbl_renewal SET eStatus = 'Active' WHERE iRenewalID = ?;",
+      [req.body.id],
+      function (err, result, fields) {
+        if (err) throw err;
+        if (result) {
+          console.log(result);
+          res.json({
+            result: true,
+            message: "Renewal status set to Active",
+            list: result,
+          });
+        } else {
+          res.json({ result: false, message: err });
+        }
+      },
+    );
+  });
+});
+
+router.post("/get-specific", (req: Request, res: Response) => {
+  const con = new modules.SqlConnection().getConnection();
+  con.connect(function (err) {
+    if (err) throw err;
+    con.query(
+      "SELECT * FROM tbl_renewal WHERE iRenewalID = ?;",
+      [req.body.id],
+      function (err, result, fields) {
+        if (err) throw err;
+        if (result) {
+          res.json({
+            result: true,
             list: result,
           });
         } else {
