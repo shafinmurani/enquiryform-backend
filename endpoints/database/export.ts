@@ -58,6 +58,7 @@ router.get("/renewals", function (req: Request, res: Response) {
           "attachment; filename=RenewalsExport.csv",
         );
         res.status(200).end(csv_data);
+        new modules.SqlConnection().closeConnection(con);
       },
     );
   });

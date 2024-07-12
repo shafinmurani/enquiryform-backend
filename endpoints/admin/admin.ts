@@ -17,6 +17,7 @@ router.post("/get", (req: Request, res: Response) => {
       } else {
         res.json({ result: false, message: err });
       }
+      new modules.SqlConnection().closeConnection(con);
     });
   });
 });

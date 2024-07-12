@@ -18,6 +18,7 @@ router.post("/get", (req, res) => {
       } else {
         res.json({ result: false, message: err });
       }
+      new modules.SqlConnection().closeConnection(con);
     });
   });
 });
@@ -41,6 +42,7 @@ router.post("/add", (req, res) => {
         } else {
           res.json({ result: false, message: err });
         }
+        new modules.SqlConnection().closeConnection(con);
       },
     );
   });
@@ -66,6 +68,7 @@ router.post("/delete", (req, res) => {
         } else {
           res.json({ result: false, message: err });
         }
+        new modules.SqlConnection().closeConnection(con);
       },
     );
   });
@@ -89,6 +92,7 @@ router.post("/get-specific", (req, res) => {
         } else {
           res.json({ result: false, message: err });
         }
+        new modules.SqlConnection().closeConnection(con);
       },
     );
   });
@@ -112,6 +116,7 @@ router.post("/edit", (req, res) => {
         } else {
           res.json({ result: false, message: err });
         }
+        new modules.SqlConnection().closeConnection(con);
       },
     );
   });
@@ -136,6 +141,7 @@ router.post("/get-by-group", (req, res) => {
         } else {
           res.json({ result: false, message: err });
         }
+        new modules.SqlConnection().closeConnection(con);
       },
     );
   });

@@ -70,6 +70,7 @@ router.post("/add", (req: Request, res: Response) => {
         } else {
           res.json({ result: false, message: err });
         }
+        new modules.SqlConnection().closeConnection(con);
       },
     );
   });
@@ -95,6 +96,7 @@ router.post("/delete", (req, res) => {
         } else {
           res.json({ result: false, message: err });
         }
+        new modules.SqlConnection().closeConnection(con);
       },
     );
   });
@@ -121,6 +123,7 @@ router.post("/set-inactive", (req, res) => {
         } else {
           res.json({ result: false, message: err });
         }
+        new modules.SqlConnection().closeConnection(con);
       },
     );
   });
@@ -147,6 +150,7 @@ router.post("/set-active", (req, res) => {
         } else {
           res.json({ result: false, message: err });
         }
+        new modules.SqlConnection().closeConnection(con);
       },
     );
   });
@@ -169,6 +173,7 @@ router.post("/get-specific", (req: Request, res: Response) => {
         } else {
           res.json({ result: false, message: err });
         }
+        new modules.SqlConnection().closeConnection(con);
       },
     );
   });
@@ -210,6 +215,7 @@ router.post("/edit", (req, res) => {
         } else {
           res.json({ result: false, message: err });
         }
+        new modules.SqlConnection().closeConnection(con);
       },
     );
   });

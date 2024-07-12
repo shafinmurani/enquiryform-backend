@@ -10,4 +10,7 @@ export class SqlConnection {
     });
     return con;
   }
+  public closeConnection(con: mysql.Connection): void {
+    con.end();
+  }
 }
