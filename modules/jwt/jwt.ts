@@ -16,7 +16,7 @@ export class JWT {
       },
       process.env.TOKEN_SECRET || "secret_key",
       {
-        expiresIn: "1200s",
+        expiresIn: "120m",
       },
     );
   }
