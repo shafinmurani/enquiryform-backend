@@ -142,7 +142,7 @@ router.post("/edit", (req, res) => {
         if (result) {
           res.json({
             result: true,
-            message: "Category updated successfully",
+            message: "Party updated successfully",
             list: result,
           });
         } else {

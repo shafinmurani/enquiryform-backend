@@ -16,12 +16,36 @@ export class JWT {
       },
       process.env.TOKEN_SECRET || "secret_key",
       {
-        expiresIn: "86400s",
+        expiresIn: "1200s",
       },
     );
   }
 
   public decode(token: string): string | jwt.JwtPayload | null {
     return jwt.decode(token);
+  }
+
+  public verifyToken(token: string): {} {
+    var result:
+      | { tokenStatus: boolean; token?: undefined }
+      | { tokenStatus: boolean; token: string | jwt.JwtPayload }
+      | {} = {};
+    jwt.verify(
+      token,
+      process.env.TOKEN_SECRET || "secret_key",
+      function (err, decoded) {
+        if (err) {
+          result = {
+            tokenStatus: false,
+          };
+        } else if (decoded) {
+          result = {
+            tokenStatus: true,
+            token: decoded,
+          };
+        }
+      },
+    );
+    return result;
   }
 }

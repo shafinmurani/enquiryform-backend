@@ -127,7 +127,7 @@ router.post("/edit", (req, res) => {
         if (result) {
           res.json({
             result: true,
-            message: "Category updated successfully",
+            message: "Dealer updated successfully",
             list: result,
           });
         } else {
