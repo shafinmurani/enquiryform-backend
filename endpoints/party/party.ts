@@ -57,44 +57,24 @@ router.post("/add", (req: Request, res: Response) => {
 
 router.post("/delete", (req: Request, res: Response) => {
   const con = new modules.SqlConnection().getConnection();
-  con.connect(async function (err) {
-    const con2 = new modules.SqlConnection().getConnection();
-    if (err) throw err;
-    con2.connect(function (err) {
-      con.query(
-        "SELECT * FROM tbl_product WHERE iCategoryID=? AND isDeleted='No' ",
-        [req.body.id],
-        function (err, result) {
-          console.log(result.length);
-          if (result.length > 0) {
-            res.json({
-              result: false,
-              message: "There are services under this Group. Delete failed",
-            });
-          } else {
-            con.query(
-              "UPDATE tbl_party SET isDeleted = 'Yes' WHERE iPartyID = ?;",
-              [req.body.id],
-              function (err, result, fields) {
-                if (err) throw err;
-                if (result) {
-                  console.log(result);
-                  res.json({
-                    result: true,
-                    message: "Party removed successfully",
-                    list: result,
-                  });
-                } else {
-                  res.json({ result: false, message: err });
-                }
-                new modules.SqlConnection().closeConnection(con);
-              },
-            );
-          }
-        },
-      );
-    });
-  });
+  con.query(
+    "UPDATE tbl_party SET isDeleted = 'Yes' WHERE iPartyID = ?;",
+    [req.body.id],
+    function (err, result, fields) {
+      if (err) throw err;
+      if (result) {
+        console.log(result);
+        res.json({
+          result: true,
+          message: "Party removed successfully",
+          list: result,
+        });
+      } else {
+        res.json({ result: false, message: err });
+      }
+      new modules.SqlConnection().closeConnection(con);
+    },
+  );
 });
 router.post("/get-specific", (req, res) => {
   console.log(req.body.id);

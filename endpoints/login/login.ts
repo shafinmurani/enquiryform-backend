@@ -16,18 +16,25 @@ router.post("/", (req: Request, res: Response) => {
       [req.body.email, req.body.password],
       function (err, result, fields) {
         if (err) throw err;
+        console.log(result);
+        console.log(req.body.password);
         if (result.length > 0) {
-          const token = new modules.JWT().generateAccessToken(
-            req.body.email,
-            result,
-          );
-          res.status(200).json({
-            token,
-            result: true,
-          });
+          if (result[0].vPassword == req.body.password) {
+            const token = new modules.JWT().generateAccessToken(
+              req.body.email,
+              result,
+            );
+            res.status(200).json({
+              token,
+              result: true,
+            });
+          } else {
+            res.json({ result: false });
+          }
         } else {
           res.json({ result: false });
         }
+
         new modules.SqlConnection().closeConnection(con);
       },
     );
