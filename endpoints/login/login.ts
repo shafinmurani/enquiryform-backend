@@ -34,7 +34,6 @@ router.post("/", (req: Request, res: Response) => {
         } else {
           res.json({ result: false });
         }
-
         new modules.SqlConnection().closeConnection(con);
       },
     );

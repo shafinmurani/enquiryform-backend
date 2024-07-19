@@ -80,10 +80,10 @@ router.post("/delete", (req: Request, res: Response) => {
                   res.json({ result: false, message: err });
                 }
                 new modules.SqlConnection().closeConnection(con);
-                new modules.SqlConnection().closeConnection(con2);
               },
             );
           }
+          new modules.SqlConnection().closeConnection(con2);
         },
       );
     });
