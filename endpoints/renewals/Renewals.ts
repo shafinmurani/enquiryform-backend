@@ -186,7 +186,19 @@ router.post("/edit", (req, res) => {
   con.connect(function (err) {
     if (err) throw err;
     con.query(
-      `UPDATE tbl_renewal SET iCategoryID=?, iProductID=?, dtRegister=?,dtExpiry=?,iPartyID=?,iQty=?,dRate=?,dAmount=?,dTax=?,eTaxType=?,dTotalAmount=?,iAccountID=?,iDealerID=?,vType=?,tRemarks=? WHERE iRenewalID = ?;`,
+      `UPDATE tbl_renewal SET iCategoryID=?,
+      iProductID=?,
+      dtRegister=?,
+      dtExpiry=?,
+      iPartyID=?,
+      iQty=?,dRate=?,
+      dAmount=?,
+      dTax=?,
+      eTaxType=?,
+      dTotalAmount=?,
+      iAccountID=?,
+      iDealerID=?,
+      vType=?,tRemarks=? WHERE iRenewalID = ?;`,
       [
         req.body.productGroupID,
         req.body.productID,
@@ -201,8 +213,8 @@ router.post("/edit", (req, res) => {
         req.body.totalAmt,
         req.body.companyID,
         req.body.dealerID,
-        req.body.remarks,
         req.body.productType,
+        req.body.remarks,
         req.body.id,
       ],
       function (err, result, fields) {

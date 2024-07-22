@@ -5,13 +5,23 @@ dotenv.config();
 export class JWT {
   public generateAccessToken(
     email: string,
-    result: { vFirstName: string; vLastName: string; iAdminID: string }[],
+    result: {
+      vFirstName: string;
+      vLastName: string;
+      iAdminID: string;
+      iAddedBy: string;
+      eRole: string;
+    }[],
   ): string {
     return jwt.sign(
       {
         email: email,
         signInTime: Date.now(),
         name: result[0].vFirstName + " " + result[0].vLastName,
+        moduleFilter: result[0].iAddedBy
+          .split(",")
+          .map((item) => parseInt(item, 10)),
+        role: result[0].eRole,
         id: result[0].iAdminID,
       },
       process.env.TOKEN_SECRET || "secret_key",
