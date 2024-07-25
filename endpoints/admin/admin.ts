@@ -27,13 +27,14 @@ router.post("/add", (req: Request, res: Response) => {
   con.connect(function (err) {
     if (err) throw err;
     con.query(
-      "INSERT INTO tbl_admin (vFirstName, vLastName, vEmail, vPassword, eRole) SELECT * FROM (SELECT ?,?,?,?) as tmp WHERE NOT EXISTS (SELECT * FROM tbl_admin WHERE vEmail = ? && isDelete = 'No') LIMIT 1;",
+      "INSERT INTO tbl_admin (vFirstName, vLastName, vEmail, vPassword, eRole, iAddedBy) SELECT * FROM (SELECT ?,?,?,?,?,?) as tmp WHERE NOT EXISTS (SELECT * FROM tbl_admin WHERE vEmail = ? && isDelete = 'No') LIMIT 1;",
       [
         req.body.firstName,
         req.body.lastName,
         req.body.email,
         req.body.password,
         req.body.role,
+        req.body.iAddedBy,
         req.body.email,
       ],
       function (err, result, fields) {
@@ -108,7 +109,7 @@ router.post("/edit", (req, res) => {
   con.connect(function (err) {
     if (err) throw err;
     con.query(
-      "UPDATE tbl_admin SET vFirstName=?, vLastName=?, vPassword=?, vEmail=?, eRole=?, eStatus=? WHERE iAdminID = ?;",
+      "UPDATE tbl_admin SET vFirstName=?, vLastName=?, vPassword=?, vEmail=?, eRole=?, eStatus=?, iAddedBy=? WHERE iAdminID = ?;",
       [
         req.body.firstName,
         req.body.lastName,
@@ -116,6 +117,7 @@ router.post("/edit", (req, res) => {
         req.body.email,
         req.body.role,
         req.body.status,
+        req.body.iAddedBy,
         req.body.id,
       ],
       function (err, result, fields) {
