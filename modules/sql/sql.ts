@@ -1,4 +1,4 @@
-import mysql, { MysqlError } from "mysql";
+import mysql from "mysql";
 
 export class SqlConnection {
   public getConnection(): mysql.Connection {
