@@ -7,3 +7,4 @@ export { dealerRouter } from "./dealer/dealer";
 export { renewalRouter } from "./renewals/Renewals";
 export { adminRouter } from "./admin/admin";
 export { databaseExportRouter } from "./database/export";
+export { databaseImportRouter } from "./database/import";

@@ -8,6 +8,7 @@ import mysql, { MysqlError } from "mysql";
 const router = express.Router();
 
 router.post("/", (req: Request, res: Response) => {
+  console.log(req.body);
   const con = new modules.SqlConnection().getConnection();
   con.connect(function (err) {
     if (err) throw err;
