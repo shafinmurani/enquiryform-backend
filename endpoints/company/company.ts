@@ -8,6 +8,7 @@ router.post("/get", (req: Request, res: Response) => {
   con.connect(function (err) {
     if (err) throw err;
     con.query("SELECT * FROM tbl_account;", function (err, result, fields) {
+      console.log(result);
       if (err) throw err;
       if (result) {
         res.json({
