@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import * as modules from "./modules/exports";
 import bodyParser from "body-parser";
 import cors from "cors";
+
 import * as routes from "./endpoints/exports";
 
 dotenv.config();
